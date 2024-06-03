@@ -35,7 +35,7 @@
       margin-top: 8px;
       vertical-align: middle;
       width: 100%;
-      cursor: pointer;
+      cursor: pointer; /* Add pointer cursor */
     }
 
     @media screen and (max-width: 800px) {
@@ -101,6 +101,31 @@
       cursor: pointer;
     }
 
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -50px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev:hover, .next:hover {
+      background-color: rgba(0,0,0,0.8);
+    }
+
     @media only screen and (max-width: 700px){
       .modal-content {
         width: 100%;
@@ -154,10 +179,15 @@
   <span class="close">&times;</span>
   <img class="modal-content" id="img01">
   <div id="caption"></div>
+  <a class="prev">&#10094;</a>
+  <a class="next">&#10095;</a>
 </div>
 
 <script>
+  // Get the modal
   var modal = document.getElementById("myModal");
+
+  // Get the image and insert it inside the modal - use its "alt" text as a caption
   var images = document.querySelectorAll('.column img');
   var modalImg = document.getElementById("img01");
   var captionText = document.getElementById("caption");
@@ -172,66 +202,26 @@
     }
   });
 
+  // Get the <span> element that closes the modal
   var span = document.getElementsByClassName("close")[0];
 
+  // When the user clicks on <span> (x), close the modal
   span.onclick = function() {
     modal.style.display = "none";
   }
 
-  function showImage(index) {
-    currentIndex = (index + images.length) % images.length;
+  // When the user clicks on "Next", show the next image
+  document.querySelector('.next').onclick = function() {
+    currentIndex = (currentIndex + 1) % images.length;
     modalImg.src = images[currentIndex].src;
     captionText.innerHTML = images[currentIndex].alt;
   }
 
-  var startX;
-  modalImg.addEventListener('touchstart', function(event) {
-    startX = event.touches[0].clientX;
-  });
-
-  modalImg.addEventListener('touchmove', function(event) {
-    if (!startX) return;
-    var moveX = event.touches[0].clientX;
-    var diffX = startX - moveX;
-
-    if (Math.abs(diffX) > 50) {
-      if (diffX > 0) {
-        showImage(currentIndex + 1);
-      } else {
-        showImage(currentIndex - 1);
-      }
-      startX = null; // reset startX
-    }
-  });
-
-  modalImg.addEventListener('mousedown', function(event) {
-    startX = event.clientX;
-    modalImg.addEventListener('mousemove', onMouseMove);
-    modalImg.addEventListener('mouseup', onMouseUp);
-    modalImg.addEventListener('mouseleave', onMouseUp);
-  });
-
-  function onMouseMove(event) {
-    if (!startX) return;
-    var moveX = event.clientX;
-    var diffX = startX - moveX;
-
-    if (Math.abs(diffX) > 50) {
-      if (diffX > 0) {
-        showImage(currentIndex + 1);
-      } else {
-        showImage(currentIndex - 1);
-      }
-      startX = null; // reset startX
-      modalImg.removeEventListener('mousemove', onMouseMove);
-    }
-  }
-
-  function onMouseUp() {
-    startX = null; // reset startX
-    modalImg.removeEventListener('mousemove', onMouseMove);
-    modalImg.removeEventListener('mouseup', onMouseUp);
-    modalImg.removeEventListener('mouseleave', onMouseUp);
+  // When the user clicks on "Previous", show the previous image
+  document.querySelector('.prev').onclick = function() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    modalImg.src = images[currentIndex].src;
+    captionText.innerHTML = images[currentIndex].alt;
   }
 </script>
 
