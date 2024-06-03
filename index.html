@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Image Grid</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial;
+    }
+
+    .header {
+      text-align: center;
+      padding: 32px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0 4px;
+    }
+
+    .column {
+      flex: 25%;
+      max-width: 25%;
+      padding: 0 4px;
+    }
+
+    .column img {
+      margin-top: 8px;
+      vertical-align: middle;
+      width: 100%;
+      cursor: pointer; /* Add pointer cursor */
+    }
+
+    @media screen and (max-width: 800px) {
+      .column {
+        flex: 50%;
+        max-width: 50%;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      .column {
+        flex: 50%;
+        max-width: 50%;
+      }
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.9);
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+    }
+
+    .modal-content, #caption {
+      animation-name: zoom;
+      animation-duration: 0.6s;
+    }
+
+    @keyframes zoom {
+      from {transform:scale(0)}
+      to {transform:scale(1)}
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @media only screen and (max-width: 700px){
+      .modal-content {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>Responsive Image Grid</h1>
+  <p>Resize the browser window to see the responsive effect.</p>
+</div>
+
+<!-- Photo Grid -->
+<div class="row"> 
+  <div class="column">
+    <img src="photo/835B78BF-07AB-4667-A872-E32AE73A0EDD_1_105_c.jpeg" alt="Image 1">
+    <img src="photo/A9284454-B873-45B3-87E7-815201E611B0_1_105_c.jpeg" alt="Image 2">
+    <img src="photo/B8E9D5A9-2DE1-45D2-B854-5C503DD4051C_1_105_c.jpeg" alt="Image 3">
+    <img src="photo/BDEF4516-D0CC-4A7A-BF41-456A98F40125_1_105_c.jpeg" alt="Image 4">
+    <img src="photo/D99900EA-3EAB-4143-B081-4BE332CF2E84_1_105_c.jpeg" alt="Image 5">
+  </div>
+  <div class="column">
+    <img src="photo/IMG_5769.JPG" alt="Image 1">
+    <img src="photo/IMG_5770.JPG" alt="Image 2">
+    <img src="photo/IMG_5771.JPG" alt="Image 3">
+    <img src="photo/IMG_5775.JPG" alt="Image 4">
+    <img src="photo/IMG_5776.JPG" alt="Image 5">
+  </div>  
+  <div class="column">
+    <img src="photo/IMG_5777.JPG" alt="Image 1">
+    <img src="photo/IMG_5778.JPG" alt="Image 2">
+    <img src="photo/IMG_5779.JPG" alt="Image 3">
+    <img src="photo/IMG_5781.JPG" alt="Image 4">
+    <img src="photo/IMG_5782.JPG" alt="Image 5">
+  </div>
+  <div class="column">
+    <img src="photo/IMG_5783.JPG" alt="Image 1">
+    <img src="photo/IMG_5784.JPG" alt="Image 2">
+    <img src="photo/IMG_6006.jpeg" alt="Image 3">
+    <img src="photo/IMG_6007.jpeg" alt="Image 4">
+    <img src="photo/IMG_6008.jpeg" alt="Image 5">
+    <img src="photo/IMG_6022.jpeg" >
+  </div>
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var images = document.querySelectorAll('.column img');
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+
+images.forEach(function(img) {
+  img.onclick = function(){
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    captionText.innerHTML = this.alt;
+  }
+});
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+  modal.style.display = "none";
+}
+</script>
+
+</body>
+</html>
